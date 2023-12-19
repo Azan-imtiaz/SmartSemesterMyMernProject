@@ -1,16 +1,14 @@
-import React,{useContext } from "react";
+import React,{useContext,useEffect } from "react";
 import Loginhero from "../component/loginhero";
+import { useNavigate } from "react-router-dom";
 
-
-
+import  {RequestApiForTokenChecking} from "../Services/apis";
 
 
 export default function Login(){
-   
 
  
     return(<>
-    {/* <h4 style={{textAlign:"center",color:"blue"}}>Register First(Same info will be added to your profile)</h4> */}
-       <Loginhero />
+           <Loginhero />
     </>)
 }

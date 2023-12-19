@@ -23,10 +23,7 @@ function Profile() {
         <ListGroup.Item>Cnic </ListGroup.Item>
         <ListGroup.Item>Password</ListGroup.Item>
       </ListGroup>
-      {/* <Card.Body>
-        <Card.Link href="#">Card Link</Card.Link>
-        <Card.Link href="#">Another Link</Card.Link>
-      </Card.Body> */}
+     
     </Card>
   );
 

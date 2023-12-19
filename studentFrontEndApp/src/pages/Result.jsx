@@ -8,24 +8,26 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Spinnner from "../component/spinner";
 import Button from 'react-bootstrap/Button';
-import { addData } from '../component/contextProvider';
+import { addData,addData2 } from '../component/contextProvider';
 import Login from "./Login";
 
 function AddCourse() {
   const [spin, setSpin] = useState(true);
   const { key, setKey } = useContext(addData);
+  const {key2,setKey2}=useContext(addData2);
 
   useEffect(() => {
-    if (key) {
+    
+    if (key || key2) {
       setTimeout(() => {
         setSpin(false);
       }, 900);
     }
-  }, [key]);
+  },);
 
   return (
     <>
-      {key ? (
+      {key || key2 ? (
         <>
           <Naavbar />
           <Container>

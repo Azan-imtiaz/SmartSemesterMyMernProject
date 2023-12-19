@@ -1,4 +1,4 @@
-import { addData } from '../component/contextProvider';
+import { addData,  addData2} from '../component/contextProvider';
 
 import React, { useEffect, useState ,useContext} from "react";
 import Naavbar from "../component/navbar";
@@ -12,13 +12,15 @@ import Spinnner from "../component/spinner";
 import Login from './Login';
 
 function AddCourse(){
-
+  
   const [spin,setSpin]=useState(true);
   const {key,setKey}=useContext(addData);
+  const {key2,setKey2}=useContext(addData2);
    
 
   useEffect(()=>{
-   if(key){
+    
+   if(key || key2){
     setTimeout(()=>{
       setSpin(false);
     },900);    } 
@@ -27,7 +29,7 @@ function AddCourse(){
     return(
       <>
       {
-        key ? (<>
+        key  || key2 ? (<>
           <Naavbar />
           <Container>
           

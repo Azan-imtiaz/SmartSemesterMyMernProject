@@ -7,24 +7,25 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Spinnner from "../component/spinner";
 import UpdateProfile from "../component/UpdateProfile";
-import { addData } from '../component/contextProvider';
+import { addData,addData2 } from '../component/contextProvider';
 import Login from "./Login";
 
 export default function UpdateProfilePage() {
   const [spin, setSpin] = useState(true);
   const { key } = useContext(addData);
+  const { key2 } = useContext(addData2);
 
   useEffect(() => {
-    if (key) {
+    if (key || key2 ) {
       setTimeout(() => {
         setSpin(false);
       }, 1200);
     }
-  }, [key]);
+  },);
 
   return (
     <>
-      {key ? (
+      {key || key2 ? (
         <>
           <Naavbar />
           <Container>
