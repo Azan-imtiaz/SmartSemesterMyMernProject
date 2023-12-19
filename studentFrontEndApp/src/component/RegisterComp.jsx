@@ -37,7 +37,7 @@ function RegisterComp() {
     console.log(inp);
     if (AllinputFiled()) {
       const data = new FormData();
-      // keyname value
+     
       data.append("email", inp.email);
       data.append("degree", inp.degree);
       data.append("password", inp.password);
@@ -62,15 +62,16 @@ function RegisterComp() {
       "Content-Type": "multipart/form-data",
     };
     const res = await postRequestFromRegisterPage(data, config);
-  
-    if (res && res.status === 200) {
-      // Use the callback form of setInp and setImagePreview
-      // setInp(prevInp => ({ ...prevInp, email: "", degree: "", password: "", file: null }));
-      // setImagePreview(() => null);
-      // console.log(res.data);
-      // setRespEmail(res.data.email);
+    // console.log(res.data);
+    if (res && res.data.st === 200) {
+   
       toast.success("Registered successfully - Now Login");
-    } else {
+    }
+    else if( res && res.data.st===500){
+      toast.success("Sorry Server is down.Try Later");
+
+    }
+    else {
       toast.error("Email already Exists");
     }
   }

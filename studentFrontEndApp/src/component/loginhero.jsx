@@ -33,20 +33,24 @@ function Loginhero() {
   }
   async function sendDataFunc() {
     try {
+
       const res = await sendDataFuncApi(inp);
 
-     
-      if (res && res.status === 200) {
+      //  console.log(res.data);
+      if (res && res.data.st=== 200) {
         console.log(res.data);
         Cookies.set('key',res.data, { expires: 7 });   //7 day expire
         setKey(inp.email);
         navigate('/home');
      
-      } else {
+      } 
+      else if( res &&  res.data.st===500) {
+
+        toast.error("Server is down-Try Later ");
+      }
+      else {
         toast.error("Enter Valid Credentials");
       }
-  
-     
     } catch (error) {
       toast.error('Error while processing the request');
     
