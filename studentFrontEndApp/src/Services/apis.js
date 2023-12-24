@@ -22,3 +22,19 @@ export async function  RequestApiForTokenChecking(body){
        return await  callAxiosFunction('POST', `${Base_Url}/token`,body);
     
 }
+
+
+export async function  getDataForProfile(body){
+
+       return await  callAxiosFunction('POST', `${Base_Url}/getProfileData`,body);
+    
+}
+
+
+export async function  updateRequestFromUpdatePage(body,config,id){
+       console.log(id)
+       return await  callAxiosFunction('POST', `${Base_Url}/updateData?id=${id}`,body,config);
+    
+}
+
+

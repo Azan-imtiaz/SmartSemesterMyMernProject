@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 function RegisterComp() {
-  const [inp, setInp] = useState({ email: "", password: "", degree: "", file: null });
+  const [inp, setInp] = useState({ email: "", password: "", degree: "", file: null ,semester:"",});
   const [imagePreview, setImagePreview] = useState('');
    
   function handleChange(e) {
@@ -39,6 +39,8 @@ function RegisterComp() {
       const data = new FormData();
      
       data.append("email", inp.email);
+      data.append("username", inp.username);
+      data.append("semester", inp.semester);
       data.append("degree", inp.degree);
       data.append("password", inp.password);
       data.append("file", inp.file); // Use the same name as expected by the server
@@ -61,18 +63,27 @@ function RegisterComp() {
     const config = {
       "Content-Type": "multipart/form-data",
     };
-    const res = await postRequestFromRegisterPage(data, config);
-    // console.log(res.data);
-    if (res && res.data.st === 200) {
-   
-      toast.success("Registered successfully - Now Login");
-    }
-    else if( res && res.data.st===500){
-      toast.success("Sorry Server is down.Try Later");
+    try{
 
+      const res = await postRequestFromRegisterPage(data, config);
+      
+      if (res && res.data.st === 200) {
+        
+        toast.success("Registered successfully - Now Login");
+      }
+      else if( res && res.data.st===500){
+        toast.error("Sorry Server is down.Try Later");
+        
+      }
+      else if(res && res.data.st===300) {
+        toast.error("Email already Exists");
+      }
+      else{
+        toast.error("Server is down-Try Later")
+      }
     }
-    else {
-      toast.error("Email already Exists");
+    catch(error){
+      toast.error("Server is down-Try Later")
     }
   }
   
@@ -86,6 +97,13 @@ function RegisterComp() {
 
             </div>
 
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label style={{ color: 'white' }} >Enter Username</Form.Label>
+              <Form.Control type="text" placeholder="Enter Username" name="username" onChange={handleChange} defaultValue={inp.username} required />
+            </Form.Group>
+
+
+
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label style={{ color: 'white' }} >Email address</Form.Label>
               <Form.Control type="email" placeholder="Enter email" name="email" onChange={handleChange} defaultValue={inp.email} required />
@@ -98,6 +116,16 @@ function RegisterComp() {
               <Form.Label style={{ color: 'white' }} >Enter Degree</Form.Label>
               <Form.Control type="text" placeholder="Enter Degree" name="degree" onChange={handleChange} defaultValue={inp.degree} required />
             </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label style={{ color: 'white' }} >Enter Semester</Form.Label>
+              <Form.Control type="text" placeholder="Enter Semester" name="semester" onChange={handleChange} defaultValue={inp.semester} required />
+            </Form.Group>
+
+
+        
+
+
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label style={{ color: 'white' }} >Password</Form.Label>

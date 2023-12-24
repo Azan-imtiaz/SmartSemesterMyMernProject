@@ -7,26 +7,33 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Spinnner from "../component/spinner";
-import { addData ,addData2} from '../component/contextProvider';
+import { addData,addData2} from '../component/contextProvider';
 import Login from "./Login";
 
 function ProfilePage() {
   const [spin, setSpin] = useState(true);
   const { key,setKey } = useContext(addData);
   const {key2,setKey2}=useContext(addData2);
-
+  
   useEffect(() => {
-    
-    if (key || key2) {
+    // const keyValue = document.cookie.split('; ').find(cookie => cookie.startsWith('e='));
+    // let e = keyValue ? keyValue.split('=')[1] : null;     
+   
+    if ((key || key2)) {
       setTimeout(() => {
         setSpin(false);
       }, 900);
-    }
-  },);
 
+     
+    }
+  });
+  // const keyValue = document.cookie.split('; ').find(cookie => cookie.startsWith('e='));
+  // let e = keyValue ? keyValue.split('=')[1] : null;
+  // console.log(e)
   return (
+
     <>
-      {key || key2 ? (
+      {((key || key2))? (
         <>
           <Naavbar />
           <Container>

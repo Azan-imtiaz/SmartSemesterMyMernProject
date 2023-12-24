@@ -11,6 +11,7 @@ const schema = mongoose.Schema({
       },
       message: "Invalid email",
     },
+    unique:true
   },
   password: {
     type: String,
@@ -21,6 +22,14 @@ const schema = mongoose.Schema({
     // required: true,
   },
   degree: {
+    type: String,
+    required: true,
+  },
+  semester: {
+    type: String,
+    required: true,
+  },
+  username: {
     type: String,
     required: true,
   },
