@@ -35,10 +35,10 @@ function AddCourse() {
               <Col xs={12} lg={4} xl={4}><HeroSectionHome /></Col>
               {spin ? <Spinnner /> :
                 <Col xs={12} lg={8} xl={8} style={{ marginTop: "130px" }}>
-                  <input type="text" style={{ marginTop: "9px" }} placeholder="Enter Semester" />
+                  <input type="text" style={{ marginTop: "9px" ,userSelect: 'none'}} placeholder="Enter Semester" />
                   {"      "} <Button variant="success">Filter</Button>{' '}{"                   "}
-                  <input type="text" style={{ marginTop: "9px" }} placeholder="Enter Grade" />
-                  {"  "} <Button variant="success">Filter</Button>{' '}
+                  <input type="text" style={{ marginTop: "9px",userSelect: 'none' }} placeholder="Enter Grade" />
+                  {"  "} <Button variant="success" >Filter</Button>{' '}
                   <br /><br />
                   <Taable />
                 </Col>

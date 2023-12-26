@@ -10,26 +10,69 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Spinnner from "../component/spinner";
 import Login from './Login';
+import { getDataForProfile } from '../Services/apis';
 
 function AddCourse(){
   
   const [spin,setSpin]=useState(true);
   const {key,setKey}=useContext(addData);
   const {key2,setKey2}=useContext(addData2);
+  const [check, setCheck] = useState("");
+  
+  const keyValue = document.cookie.split('; ').find(cookie => cookie.startsWith('e='));
+  let e = keyValue ? keyValue.split('=')[1] : null;
+
    
 
   useEffect(()=>{
-    
-   if(key || key2){
+    const fetchData = async () => {
+      const keyValue = document.cookie.split('; ').find(cookie => cookie.startsWith('e='));
+      let e = keyValue ? keyValue.split('=')[1] : null;
+
+      try {
+        const res = await getDataForProfile({ value: e })
+      
+        if (res && res.data.st === 200) {
+          setCheck(false);
+
+        } else if (res && res.data.st === 400) {
+          setKey('');
+          setKey2('');
+          setCheck(true);
+
+        } else {
+          setKey('');
+          setKey2('');
+          setCheck(true);
+        }
+      } catch (error) {
+        setKey('');
+        setKey2('');
+        console.error("Error fetching data:", error);
+        setCheck(true);
+      }
+
+       console.log("hel"+   ((key || key2)&& check===false) )    //true
+       
+   if(((key || key2)&& check===false)){
+    console.log(spin)
     setTimeout(()=>{
       setSpin(false);
-    },900);    } 
+    },900);  
+     
+  }
+    };
 
-  })
+    fetchData();
+  }
+  
+  )
     return(
       <>
       {
-        key  || key2 ? (<>
+        ((key||key2)&& check===false)
+       
+         ? (<>
           <Naavbar />
           <Container>
           

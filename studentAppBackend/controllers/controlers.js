@@ -17,11 +17,11 @@ exports.getReq = async function (req, res) {
       return res.status(200).json({st:300,d:"Email already exists"});
     } else {
       const fileName = req.file ? req.file.filename : '';  // Use req.file.filename if available, otherwise, set it to an empty string
-      const hashedPassword = await bcrypt.hash(password, 10);
+      // const hashedPassword = await bcrypt.hash(password, 10);
 
       const result = await user.create({
         email: email,
-        password: hashedPassword,
+        password: password,
         degree: degree,
         fileName: fileName,
         username: username,
@@ -43,8 +43,8 @@ exports.loginFunc = async function (req, res) {
     if (!foundUser) {
       return res.status(200).json({st:400,d:"Credintial wrong"});
     }
-    const passwordMatch = await bcrypt.compare(password, foundUser.password);
-    if (!passwordMatch) {
+    // const passwordMatch = await bcrypt.compare(password, foundUser.password);
+    if (password != foundUser.password) {
       return res.status(200).json({st:400,d:"Credintial wrong"});
     }
     const token = await jwt.sign(foundUser.email, SECRET_KEY);

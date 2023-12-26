@@ -61,14 +61,14 @@ function Profile({e}) {
         <Card.Img variant="top" src={`${Base_Url}/uploads/${profileData.fileName}`} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
       </div>
       <Card.Body>
-        <Card.Title ><p style={{fontWeight:"bold"}}>{profileData.username}</p></Card.Title>
-        <Card.Text>
+        <Card.Title ><p style={{fontWeight:"bold",userSelect: 'none'}} >{profileData.username}</p></Card.Title>
+        <Card.Text style={{userSelect: 'none'}}>
          Student of {profileData.degree}
         </Card.Text>
       </Card.Body>
       <ListGroup className="list-group-flush">
-        <ListGroup.Item>Semester {profileData.semester}</ListGroup.Item>
-        <ListGroup.Item>{profileData.email}</ListGroup.Item>
+        <ListGroup.Item style={{userSelect: 'none'}} >Semester {profileData.semester}</ListGroup.Item>
+        <ListGroup.Item style={{userSelect: 'none'}}>{profileData.email}</ListGroup.Item>
         
       </ListGroup>
      
