@@ -38,3 +38,30 @@ export async function  updateRequestFromUpdatePage(body,config,id){
 }
 
 
+export async function  postRequestFromAddResultPage(body){
+       return await  callAxiosFunction('POST', `${Base_Url}/AddResult`,body);
+    
+}
+
+
+export async function  postRequestFromGetResultPage(body){
+       return await  callAxiosFunction('POST', `${Base_Url}/getResult`,body);
+    
+}
+
+
+export async function  getSingleItem(body){
+       return await  callAxiosFunction('POST', `${Base_Url}/getResultItem`,body);
+    
+}
+
+export async function  updateDataSingleItem(body){
+       return await  callAxiosFunction('POST', `${Base_Url}/updateResultItem`,body);
+    
+}
+deleteResultItem
+
+export async function  deleteResultItem(body){
+       return await  callAxiosFunction('POST', `${Base_Url}/deleteResultItem`,body);
+    
+}

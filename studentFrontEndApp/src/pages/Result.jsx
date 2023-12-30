@@ -10,37 +10,67 @@ import Spinnner from "../component/spinner";
 import Button from 'react-bootstrap/Button';
 import { addData,addData2 } from '../component/contextProvider';
 import Login from "./Login";
+import {getDataForProfile} from "../Services/apis"
 
 function AddCourse() {
-  const [spin, setSpin] = useState(true);
+  const [spin, setSpin] = useState(false);
   const { key, setKey } = useContext(addData);
   const {key2,setKey2}=useContext(addData2);
 
-  useEffect(() => {
-    
-    if (key || key2) {
-      setTimeout(() => {
-        setSpin(false);
-      }, 900);
-    }
-  },);
+  const [check, setCheck] = useState("");
+  const keyValue = document.cookie.split('; ').find(cookie => cookie.startsWith('e='));
+  let e = keyValue ? keyValue.split('=')[1] : null;
+
+  useEffect(()=>{
+    const fetchData = async () => {
+      const keyValue = document.cookie.split('; ').find(cookie => cookie.startsWith('e='));
+      let e = keyValue ? keyValue.split('=')[1] : null;
+      
+
+      try {
+        const res = await getDataForProfile({ value: e })
+      
+        if (res && res.data.st === 200) {
+          setCheck(false);
+
+        } else if (res && res.data.st === 400) {
+          setKey('');
+          setKey2('');
+          setCheck(true);
+
+        } else {
+          setKey('');
+          setKey2('');
+          setCheck(true);
+        }
+      } catch (error) {
+        setKey('');
+        setKey2('');
+        console.error("Error fetching data:", error);
+        setCheck(true);
+      }
+
+       
+    };
+
+    fetchData();
+  }
+  
+  )
+
 
   return (
     <>
-      {key || key2 ? (
+      {((key || key2)&& check===false) ? (
         <>
           <Naavbar />
           <Container>
             <Row>
               <Col xs={12} lg={4} xl={4}><HeroSectionHome /></Col>
-              {spin ? <Spinnner /> :
+              {
                 <Col xs={12} lg={8} xl={8} style={{ marginTop: "130px" }}>
-                  <input type="text" style={{ marginTop: "9px" ,userSelect: 'none'}} placeholder="Enter Semester" />
-                  {"      "} <Button variant="success">Filter</Button>{' '}{"                   "}
-                  <input type="text" style={{ marginTop: "9px",userSelect: 'none' }} placeholder="Enter Grade" />
-                  {"  "} <Button variant="success" >Filter</Button>{' '}
-                  <br /><br />
-                  <Taable />
+                  
+                  <Taable  email={e} />
                 </Col>
               }
             </Row>

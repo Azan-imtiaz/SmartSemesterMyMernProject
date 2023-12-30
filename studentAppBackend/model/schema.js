@@ -37,5 +37,45 @@ const schema = mongoose.Schema({
 
 const user = mongoose.model("user", schema);
 
+
+
+
+//schema for storing result 
+
+const schema2 = mongoose.Schema({
+  EM:{
+    type: String,
+    required: true,
+    validate: {
+      validator: function (value) {
+        return validator.isEmail(value);
+      },                                                                 
+      message: "Invalid email",
+    },
+  },
+  CN:{
+    type:String,
+    required:true
+  },
+  TM:{
+    type:Number,
+    required:true
+  },
+  OM:{
+    type:Number,
+    required:true
+  },
+  S:{
+    type:Number,
+    required:true
+  },
+  GR:{
+    type:String,
+    required:true
+  },
+});
+
+const result = mongoose.model("result", schema2);
+
 // Correct the export statement
-module.exports = user;
+module.exports = {user,result};

@@ -31,8 +31,9 @@ function AddCourse(){
 
       try {
         const res = await getDataForProfile({ value: e })
-      
+     
         if (res && res.data.st === 200) {
+          
           setCheck(false);
 
         } else if (res && res.data.st === 400) {
@@ -52,10 +53,8 @@ function AddCourse(){
         setCheck(true);
       }
 
-       console.log("hel"+   ((key || key2)&& check===false) )    //true
        
    if(((key || key2)&& check===false)){
-    console.log(spin)
     setTimeout(()=>{
       setSpin(false);
     },900);  

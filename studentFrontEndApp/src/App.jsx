@@ -10,6 +10,7 @@ import Register from './pages/register';
 import Result from "./pages/Result";
 import ProfilePage from './pages/ProfilePage';
 import UpdateProfilePage from "./pages/UpdateProfileMain"
+import  UpdateResult from "./pages/UpdateResult";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
 <Route exact path='/AddCourse' element={<AddCourse />}></Route>
 <Route exact path='/ProfilePage' element={<ProfilePage />}></Route>
 <Route exact path='/UpdateProfile' element={<UpdateProfilePage/>}></Route>
+<Route exact path='/UpdateResultItem/:_id' element={< UpdateResult />}></Route>
 
      </Routes>
     </>
