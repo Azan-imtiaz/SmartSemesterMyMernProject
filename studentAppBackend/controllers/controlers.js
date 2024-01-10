@@ -31,7 +31,7 @@ exports.getReq = async function (req, res) {
       res.status(200).json({ st: 200, d: "Registered" });
     }
   } catch (err) {
-
+    console.log(err);
     res.status(200).json({ st: 500 });
   }
 };
@@ -98,10 +98,10 @@ exports.getDataForProfile = async function (req, res) {
 }
 
 exports.updateData = async function (req, res) {
-  const userId = req.query.id; // Assuming id is in the URL parameters
+  const userId = req.query.id; 
 
   try {
-    // Step 1: Find the document with the given id
+    
     const foundUser = await user.findById(userId);
 
     // Step 2: Check if the new email already exists in the database
@@ -151,13 +151,13 @@ exports.storeResult = async (req, res) => {
     return res.status(200).json({ st: 300, d: "email not found" });
    }
 
-
+    const UpCGrade=Grade.toUpperCase();
     const data = await result.create({
       CN: CourseName,
       TM: TotalM,
       OM: ObtainedM,
       S: Semester,
-      GR: Grade,
+      GR: UpCGrade,
       EM: Email
 
     });
@@ -175,9 +175,12 @@ exports.storeResult = async (req, res) => {
 
 exports.getResult = async function (req, res) {
   const { email} = req.body;
+  console.log(email)
   try {
     const data = await result.find({ EM: email });
-    console.log(data)
+    
+    console.log(data);
+
     if (data.length > 0) {
      
       return res.status(200).json({ st: 200, d: data });
@@ -193,6 +196,7 @@ exports.getResult = async function (req, res) {
 //api to update result item 
 exports.updateResultItem = async function (req, res) {
   const { id, CourseName, TotalM, ObtainedM, Semester, Grade } = req.body;
+  const UpCGrade=Grade.toUpperCase();
   try {
     const data = await result.updateOne({ _id: id }, {
       $set: {
@@ -200,7 +204,7 @@ exports.updateResultItem = async function (req, res) {
         TM: TotalM,
         OM: ObtainedM,
         S: Semester,
-        GR: Grade,
+        GR: UpCGrade,
       }
     });
    console.log(data);
@@ -236,18 +240,17 @@ exports.getResultItem = async (req, res) => {
   }
 }
 
-// api to delete result item  
+  
 exports.deleteResultItem = async (req, res) => {
-  // Extract the 'id' from the request body
+  
   const { id } = req.body;
 
   try {
-    // Attempt to delete the document with the specified '_id' from the 'result' collection
 
     const data = await result.deleteOne({ _id: id });
 
     // Check if a document was deleted
-    
+
     if (data.deletedCount > 0) {
       return res.status(200).json({ st: 200, d: data });
     }
@@ -261,3 +264,44 @@ exports.deleteResultItem = async (req, res) => {
   }
 };
 
+exports.filterResult = async (req, res) => {
+  let { email, semesterF, gradeF } = req.body;
+  console.log(req.body);
+  // Parse semesterF to integer if it is not an empty string
+  if (semesterF !== null && semesterF !== undefined && semesterF !== "") {
+    semesterF = parseInt(semesterF);
+    if (isNaN(semesterF)) {
+      return res.status(200).json({ st: 500, d: "Invalid semester value" });
+    }
+  }
+
+  try {
+    let query = { EM: email };
+
+    // Add semesterF to the query if it is not an empty string
+    if (semesterF !== null && semesterF !== undefined && semesterF !== "") {
+      query.S = semesterF;
+    }
+
+    // Add gradeF to the query if it is not an empty string
+    if (gradeF !== null && gradeF !== undefined && gradeF.trim() !== "") {
+      gradeF= gradeF.toUpperCase();
+      query.GR = gradeF;
+
+    }
+
+    console.log("Final Query:", query);
+
+    const data = await result.find(query);
+    console.log("Result:", data);
+
+    if (data.length > 0) {
+      return res.status(200).json({ st: 200, d: data });
+    }
+
+    return res.status(200).json({ st: 300, d: "Sorry, no documents found" });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(200).json({ st: 500, d: "Server error" });
+  }
+};

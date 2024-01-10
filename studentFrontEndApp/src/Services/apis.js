@@ -18,6 +18,16 @@ export async function  sendDataFuncApi(body){
 
 
 
+
+
+
+export async function  getFilterData(body){
+       return await  callAxiosFunction('POST', `${Base_Url}/filter`,body);
+    
+}
+
+
+
 export async function  RequestApiForTokenChecking(body){
        return await  callAxiosFunction('POST', `${Base_Url}/token`,body);
     

@@ -18,6 +18,7 @@ function Naavbar() {
               <Nav className="me-auto">
                 <Nav.Link ><Link style={{color:"black",textDecoration:"none",userSelect: 'none'}} to="/home" >Home</Link></Nav.Link>
                 <Nav.Link  style={{color:"black",textDecoration:"none",userSelect: 'none'}} href="https://www.linkedin.com/in/azan-imtiaz-818471234" >Developer</Nav.Link>
+                <Nav.Link  style={{color:"black",textDecoration:"none",userSelect: 'none'}} href="https://documenter.getpostman.com/view/29759797/2s9Ykn8gvk" >Documentation</Nav.Link>
            
                 <Nav.Link ><Link style={{color:"black",textDecoration:"none",userSelect: 'none'}} to="/ProfilePage" >Profile</Link></Nav.Link>
                 

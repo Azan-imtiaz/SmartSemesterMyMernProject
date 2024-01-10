@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { addData, addData2 } from './component/contextProvider.jsx';
 import App from './App.jsx';
 import './index.css';
-
+import { Pagination } from './component/pagination.jsx';
 // Wrap your rendering logic in a function
 const RootComponent = () => {
   // Create your state variables
@@ -18,14 +18,16 @@ const RootComponent = () => {
   // Render the app
   return (
     <React.StrictMode>
-      {/* Wrap your components with the Context Providers */}
-      <AddDataProvider value={{ key, setKey }}>
+      {/* Wrap your components with the Context Providers  */}
+       <AddDataProvider value={{ key, setKey }}>
         <AddData2Provider value={{ key2, setKey2 }}>
           <BrowserRouter>
             <App />
           </BrowserRouter>
         </AddData2Provider>
       </AddDataProvider>
+
+     {/* <Pagination /> */}
     </React.StrictMode>
   );
 };

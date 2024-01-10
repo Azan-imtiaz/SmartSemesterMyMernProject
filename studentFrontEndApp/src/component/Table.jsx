@@ -2,21 +2,20 @@ import Table from 'react-bootstrap/Table';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from 'react';
-import { postRequestFromGetResultPage, deleteResultItem } from "../Services/apis";
+import { postRequestFromGetResultPage, deleteResultItem,getFilterData } from "../Services/apis";
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Spinnner from "../component/spinner";
 import { ToastContainer, toast } from 'react-toastify';
-
-
-
 function Taable({ email }) {
   const navigate = useNavigate();
   const [check, setCheck] = useState("");
   const [inp, setInp] = useState([]);
   const [refresh, setRefresh] = useState();
   const [spin, setSpin] = useState(true);
+  const [semester, setSemester] = useState("");
+  const [grade, setGrade] = useState("");
 
 
   useEffect(() => {
@@ -34,40 +33,89 @@ function Taable({ email }) {
 
       const res = await postRequestFromGetResultPage({ "email": email });
       if (res && res.data.st === 200) {
+
         setInp(res.data.d);
+
         setCheck(true);
+
       }
       else {
+
         setCheck(false);
+
       }
 
     } catch (err) {
       console.log(err.message);
+
       setCheck(false);
     }
   }
 
   async function deleteItem(id) {
     console.log(id);
-    try{
+    try {
 
-    
-    const res = await deleteResultItem({ "id": id });
-    if (res && res.data.st === 200) {
-     toast.success("Deleted Succesfully-Refresh");
-     setInp((prevInp) => prevInp.filter((item) => item._id !== id))
+
+      const res = await deleteResultItem({ "id": id });
+      if (res && res.data.st === 200) {
+        toast.success("Deleted Succesfully-Refresh");
+        setInp((prevInp) => prevInp.filter((item) => item._id !== id))
+      }
+      else {
+        toast.error("Try  Later");
+      }
     }
-    else {
+    catch (e) {
+      console.log(e.message);
       toast.error("Try  Later");
     }
-  }
-  catch(e){
-    console.log(e.message);
-    toast.error("Try  Later");
-  }
 
   }
 
+
+  function handleFilterChange(e) {
+    const { name, value } = e.target;
+
+    if (name === "semesterFilter") {
+      setSemester(value);
+    }
+
+    if (name === "gradeFilter") {
+      setGrade(value);
+    }
+    
+      
+  }
+
+ const handleFilterClick=async ()=>{
+  try{
+
+    
+    
+    const res=await getFilterData({semesterF:semester,gradeF:grade,"email": email});
+      console.log(res);
+      console.log(semester+"         "+grade)
+      if (res && res.data.st === 200) {
+
+        setInp(res.data.d);
+
+        setCheck(true);
+
+      }
+      else {
+
+        setCheck(false);
+
+      }
+
+    }  
+     catch (err) {
+      console.log(err.message);
+
+      setCheck(false);
+    }
+ }
   return (
     <div>
       {
@@ -75,14 +123,14 @@ function Taable({ email }) {
           <Spinnner />
         ) :
           (
-            <> {
-              check &&  inp.length > 0 ? (
+            <> <input type="text" style={{ marginTop: "9px", userSelect: 'none' }} value={semester} onChange={handleFilterChange} name="semesterFilter" placeholder="Enter Semester" />
+            {"      "} <Button variant="success" onClick={handleFilterClick}>Filter</Button>{' '}{"                   "}
+            <input type="text" style={{ marginTop: "9px", userSelect: 'none' }} value={grade} onChange={handleFilterChange} name="gradeFilter" placeholder="Enter Grade" />
+            {"  "} <Button variant="success" onClick={handleFilterClick}  >Filter</Button>{' '}
+            <br /><br />
+             {
+              check && inp.length > 0 ? (
                 <>
-                  <input type="text" style={{ marginTop: "9px", userSelect: 'none' }} placeholder="Enter Semester" />
-                  {"      "} <Button variant="success">Filter</Button>{' '}{"                   "}
-                  <input type="text" style={{ marginTop: "9px", userSelect: 'none' }} placeholder="Enter Grade" />
-                  {"  "} <Button variant="success" >Filter</Button>{' '}
-                  <br /><br />
                   <Table responsive>
                     <thead>
                       <tr>
@@ -141,7 +189,7 @@ function Taable({ email }) {
                 </tbody>
 
               </Table>
-                
+
               </>)
             } </>
 
@@ -153,4 +201,4 @@ function Taable({ email }) {
 
 }
 
-export default Taable;
+export default Taable;  
