@@ -123,11 +123,15 @@ function Taable({ email }) {
           <Spinnner />
         ) :
           (
-            <> <input type="text" style={{ marginTop: "9px", userSelect: 'none' }} value={semester} onChange={handleFilterChange} name="semesterFilter" placeholder="Enter Semester" />
+            <> 
+             {"  "} <Button variant="success" style={{backgroundColor:"blue",border:"2px solid blue"}}  >Export to csv</Button>{' '}
+            <br /><br />
+            <input type="text" style={{ marginTop: "9px", userSelect: 'none' }} value={semester} onChange={handleFilterChange} name="semesterFilter" placeholder="Enter Semester" />
             {"      "} <Button variant="success" onClick={handleFilterClick}>Filter</Button>{' '}{"                   "}
             <input type="text" style={{ marginTop: "9px", userSelect: 'none' }} value={grade} onChange={handleFilterChange} name="gradeFilter" placeholder="Enter Grade" />
             {"  "} <Button variant="success" onClick={handleFilterClick}  >Filter</Button>{' '}
             <br /><br />
+           
              {
               check && inp.length > 0 ? (
                 <>
