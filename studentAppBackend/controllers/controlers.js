@@ -2,6 +2,8 @@ const express = require("express");
 const { user, result } = require("../model/schema");
 var bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
+const fs=require("fs");
+const csv=require("fast-csv");
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -303,5 +305,74 @@ exports.filterResult = async (req, res) => {
   } catch (err) {
     console.error(err.message);
     return res.status(200).json({ st: 500, d: "Server error" });
+  }
+};
+
+
+// export user
+exports.userExport = async (req, res) => {
+    let { email, semesterF, gradeF } = req.body;
+    console.log(req.body);
+  
+    try {
+      let query = { EM: email };
+  
+      // Add semesterF to the query if it is not an empty string
+      if (semesterF !== null && semesterF !== undefined && semesterF !== "") {
+        query.S = semesterF;
+      }
+  
+      // Add gradeF to the query if it is not an empty string
+      if (gradeF !== null && gradeF !== undefined && gradeF.trim() !== "") {
+        gradeF= gradeF.toUpperCase();
+        query.GR = gradeF;
+  
+      }
+  
+      console.log("Final Query:", query);
+  
+  
+    const usersdata = await result.find(query);
+    console.log(usersdata);
+
+    const csvStream = csv.format({ headers: true });
+    
+    // Use fs.promises.mkdir to avoid callback-based pattern
+    try {
+      await fs.promises.mkdir("public/files/", { recursive: true });
+      await fs.promises.mkdir("public/files/export", { recursive: true });
+    } catch (mkdirError) {
+      console.error("Error creating directories:", mkdirError);
+    }
+
+    const writableStream = fs.createWriteStream(
+      "public/files/export/users.csv"
+    );
+    csvStream.pipe(writableStream);
+
+    writableStream.on("finish", function () {
+      res.json({st:200,
+        downloadUrl: `http://localhost:4000/files/export/users.csv`,
+      });
+    });
+
+    if (usersdata.length > 0) {
+      usersdata.forEach((user) => {
+        csvStream.write({
+          CourseName: user.CN || "-",
+          TotalMarks: user.TM || "-",
+         ObtainedMarks : user.OM || "-",
+          Semester: user.S || "-",
+         Grade: user.GR || "-",
+         
+        });
+      });
+    }
+
+    csvStream.end();
+    writableStream.end(); // Corrected usage
+  } catch (error) {
+    console.error("An error occurred:", error);
+    res.status(401).json({ error: "An error occurred. Check the console for details." });
   }
 };

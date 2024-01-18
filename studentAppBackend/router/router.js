@@ -1,7 +1,7 @@
 
 const express=require("express")
 const router = express.Router();
-const {deleteResultItem,filterResult,getReq,loginFunc,getDataForProfile,tokenCheck,updateData,storeResult,getResult,updateResultItem,getResultItem}=require("../controllers/controlers");   //OBJECT DESTRUCTURING
+const {deleteResultItem,userExport,filterResult,getReq,loginFunc,getDataForProfile,tokenCheck,updateData,storeResult,getResult,updateResultItem,getResultItem}=require("../controllers/controlers");   //OBJECT DESTRUCTURING
 
 const upload=require("../multerConfig/storageConfig");
 
@@ -19,6 +19,9 @@ router.post("/updateResultItem",updateResultItem);
 router.post("/getResultItem",getResultItem);
 router.post("/deleteResultItem",deleteResultItem);
 router.post("/filter",filterResult);
+router.post("/getExportData",userExport);
+
+
 
 
 module.exports =router;

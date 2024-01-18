@@ -69,9 +69,14 @@ export async function  updateDataSingleItem(body){
        return await  callAxiosFunction('POST', `${Base_Url}/updateResultItem`,body);
     
 }
-deleteResultItem
+
 
 export async function  deleteResultItem(body){
        return await  callAxiosFunction('POST', `${Base_Url}/deleteResultItem`,body);
+    
+}
+
+export async function  getExportData(body){
+       return await  callAxiosFunction('POST', `${Base_Url}/getExportData`,body);
     
 }

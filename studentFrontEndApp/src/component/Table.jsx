@@ -2,7 +2,7 @@ import Table from 'react-bootstrap/Table';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from 'react';
-import { postRequestFromGetResultPage, deleteResultItem,getFilterData } from "../Services/apis";
+import { postRequestFromGetResultPage, deleteResultItem,getFilterData,getExportData } from "../Services/apis";
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -116,6 +116,35 @@ function Taable({ email }) {
       setCheck(false);
     }
  }
+
+
+ async function handleClick(){
+  try{
+    const res=await getExportData({semesterF:semester,gradeF:grade,"email": email});
+   
+    if (res && res.data.st === 200) {
+    
+
+       window.open(res.data.downloadUrl);
+   
+   
+
+    }
+    else {
+
+   toast.error("Error !");
+
+    }
+
+
+  }
+  catch (err) {
+    console.log(err.message);
+
+   
+  }
+     
+ }
   return (
     <div>
       {
@@ -124,7 +153,7 @@ function Taable({ email }) {
         ) :
           (
             <> 
-             {"  "} <Button variant="success" style={{backgroundColor:"blue",border:"2px solid blue"}}  >Export to csv</Button>{' '}
+             {"  "} <Button variant="success" style={{backgroundColor:"blue",border:"2px solid blue"}}  onClick={handleClick} >Export to csv</Button>{' '}
             <br /><br />
             <input type="text" style={{ marginTop: "9px", userSelect: 'none' }} value={semester} onChange={handleFilterChange} name="semesterFilter" placeholder="Enter Semester" />
             {"      "} <Button variant="success" onClick={handleFilterClick}>Filter</Button>{' '}{"                   "}
@@ -152,11 +181,11 @@ function Taable({ email }) {
                       {
                         inp.map(({ CN, TM, OM, GR, S, _id }, index) => (
                           <tr key={index}>
-                            <td style={{ userSelect: 'none' }}>{CN}</td>
-                            <td style={{ userSelect: 'none' }}>{TM}</td>
-                            <td style={{ userSelect: 'none' }}>{OM}</td>
-                            <td style={{ userSelect: 'none' }}>{GR}</td>
-                            <td style={{ userSelect: 'none' }}>{S}</td>
+                            <td style={{ userSelect: 'none' }} >{CN}</td>
+                            <td style={{ userSelect: 'none',paddingLeft:"30px" }}>{TM}</td>
+                            <td style={{ userSelect: 'none',paddingLeft:"50px" }}>{OM}</td>
+                            <td style={{ userSelect: 'none',paddingLeft:"20px" }}>{GR}</td>
+                            <td style={{ userSelect: 'none' ,paddingLeft:"30px"}}>{S}</td>
                             <td>
                               <button style={{ border: "1px solid white", borderRadius: "2px" }}>
                                 <Link to={`/UpdateResultItem/${_id}`}> <EditIcon style={{ color: "green" }} /></Link>
