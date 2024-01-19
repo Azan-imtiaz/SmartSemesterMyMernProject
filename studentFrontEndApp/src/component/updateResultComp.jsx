@@ -89,7 +89,7 @@ async  function sendData(){
                 <Form style={{ backgroundColor: '#3498db', padding: '20px', borderRadius: '8px' }}>
                   <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label style={{ color: 'white' }}>Course Name</Form.Label>
-                    <Form.Control type="text"  name="" onChange={handleChange} defaultValue={inp.CourseName} required />
+                    <Form.Control type="text"  name="CourseName" onChange={handleChange} defaultValue={inp.CourseName} required />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label style={{ color: 'white' }}>Total Mark</Form.Label>

@@ -198,6 +198,7 @@ exports.getResult = async function (req, res) {
 //api to update result item 
 exports.updateResultItem = async function (req, res) {
   const { id, CourseName, TotalM, ObtainedM, Semester, Grade } = req.body;
+  console.log(CourseName)
   const UpCGrade=Grade.toUpperCase();
   try {
     const data = await result.updateOne({ _id: id }, {
