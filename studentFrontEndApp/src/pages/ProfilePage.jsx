@@ -27,9 +27,7 @@ function ProfilePage() {
      
     }
   });
-  // const keyValue = document.cookie.split('; ').find(cookie => cookie.startsWith('e='));
-  // let e = keyValue ? keyValue.split('=')[1] : null;
-  // console.log(e)
+ 
   return (
 
     <>

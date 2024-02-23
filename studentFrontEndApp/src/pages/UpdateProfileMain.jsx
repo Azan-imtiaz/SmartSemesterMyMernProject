@@ -14,6 +14,7 @@ export default function UpdateProfilePage() {
   const [spin, setSpin] = useState(true);
   const { key } = useContext(addData);
   const { key2 } = useContext(addData2);
+  console.log("hello2"+key);
 
   useEffect(() => {
     if (key || key2 ) {

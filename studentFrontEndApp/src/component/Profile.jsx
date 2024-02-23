@@ -1,12 +1,14 @@
 
-import React,{useEffect, useState} from 'react';
+import React,{useEffect,useContext, useState} from 'react';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import {getDataForProfile} from "../Services/apis";
 
+import { addData, addData2 } from './contextProvider';
 import { ToastContainer, toast } from 'react-toastify';
 import Login from '../pages/Login';
 import {Base_Url} from "../Services/helper";
+
 
 
 
@@ -14,16 +16,16 @@ function Profile({e}) {
  
   const [profileData,setProfileData]=useState({degree:"",email:"",password:"",fileName:""});
   const [check,setCheck]=useState("");
+  const { key, setKey } = useContext(addData);
+
    
   useEffect(() => {
     
 
     const fetchData = async () => {
-      const keyValue = document.cookie.split('; ').find(cookie => cookie.startsWith('e='));
-      let e = keyValue ? keyValue.split('=')[1] : null;
-
+     
       try {
-        const res = await getDataForProfile({value:e});
+        const res = await getDataForProfile({value:key});
         console.log(res.data.foundUser)
        
        if(res && res.data.st===200){

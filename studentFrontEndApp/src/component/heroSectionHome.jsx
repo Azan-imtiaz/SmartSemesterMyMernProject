@@ -9,7 +9,6 @@ import Loginhero from "./loginhero";
 export default function HeroSectionHome() {
   const { key, setKey } = useContext(addData);
 
-  console.log(key);
 
   return (
     <>

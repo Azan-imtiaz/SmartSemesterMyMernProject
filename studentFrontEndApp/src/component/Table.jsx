@@ -1,20 +1,38 @@
 import Table from 'react-bootstrap/Table';
+
 import DeleteIcon from '@mui/icons-material/Delete';
+
 import EditIcon from '@mui/icons-material/Edit';
+
+
 import { useEffect, useState } from 'react';
+
 import { postRequestFromGetResultPage, deleteResultItem,getFilterData,getExportData } from "../Services/apis";
+
 import Button from 'react-bootstrap/Button';
+
 import { useNavigate } from 'react-router-dom';
+
 import { Link } from 'react-router-dom';
+
 import Spinnner from "../component/spinner";
+
 import { ToastContainer, toast } from 'react-toastify';
+
 function Taable({ email }) {
   const navigate = useNavigate();
+  
   const [check, setCheck] = useState("");
+  
+
   const [inp, setInp] = useState([]);
+  
   const [refresh, setRefresh] = useState();
+  
   const [spin, setSpin] = useState(true);
+
   const [semester, setSemester] = useState("");
+  
   const [grade, setGrade] = useState("");
 
 
@@ -32,6 +50,7 @@ function Taable({ email }) {
 
 
       const res = await postRequestFromGetResultPage({ "email": email });
+      console.log("result"+res);
       if (res && res.data.st === 200) {
 
         setInp(res.data.d);
@@ -59,7 +78,7 @@ function Taable({ email }) {
 
       const res = await deleteResultItem({ "id": id });
       if (res && res.data.st === 200) {
-        toast.success("Deleted Succesfully-Refresh");
+        toast.success("Deleted Succesfully");
         setInp((prevInp) => prevInp.filter((item) => item._id !== id))
       }
       else {

@@ -16,6 +16,7 @@ function AddCourse(){
   
   const [spin,setSpin]=useState(true);
   const {key,setKey}=useContext(addData);
+  console.log("key="+key);
   const {key2,setKey2}=useContext(addData2);
   const [check, setCheck] = useState("");
   
@@ -25,13 +26,15 @@ function AddCourse(){
    
 
   useEffect(()=>{
-    const fetchData = async () => {
-      const keyValue = document.cookie.split('; ').find(cookie => cookie.startsWith('e='));
-      let e = keyValue ? keyValue.split('=')[1] : null;
+ 
 
+    const fetchData = async () => {
+      if(key){    
+   
+       
       try {
-        const res = await getDataForProfile({ value: e })
-     
+        const res = await getDataForProfile({ value:key })
+       console.log(res)
         if (res && res.data.st === 200) {
           
           setCheck(false);
@@ -59,13 +62,14 @@ function AddCourse(){
       setSpin(false);
     },900);  
      
-  }
+  }   }
     };
 
     fetchData();
-  }
+  })
   
-  )
+
+  
     return(
       <>
       {

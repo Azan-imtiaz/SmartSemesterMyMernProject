@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import Form from 'react-bootstrap/Form';
 import { Container } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {postRequestFromAddResultPage} from "../Services/apis";
+import { addData, addData2 } from './contextProvider';
 
 
 export default function HeroSectionRightHome() {
+  const { key, setKey } = useContext(addData);
   const [inp,setInp]=useState({ CourseName:"", TotalM:"", ObtainedM:"", Semester:"", Grade:""}
     );
 
@@ -31,12 +33,9 @@ setInp(()=>{
   }
 
   async function submitData(inp){
-    const keyValue = document.cookie.split('; ').find(cookie => cookie.startsWith('e='));
-    let   Email= keyValue ? keyValue.split('=')[1] : null;
-
     
     
-    const res=await  postRequestFromAddResultPage({...inp,"Email":Email});
+    const res=await  postRequestFromAddResultPage({...inp,"Email":key});
     console.log(res);
     if(res && res.data.st===200){
       toast.success("Successfuly Added");

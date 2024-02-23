@@ -68,9 +68,9 @@ exports.tokenCheck = async function (req, res) {
     console.log(req.body.id);
     if (req.body.id) {
       const correctToken = await jwt.verify(req.body.id, SECRET_KEY);
-     
+      
       if (correctToken) {
-        return res.status(200).json("Done");
+        return res.status(200).json({email:correctToken});
       } else {
         return res.status(400).json("Not done");
       }

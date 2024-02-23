@@ -7,4 +7,13 @@ other if credintials not validate setKey(false)
 
 
  
-agr login ho  ek bar to backend py ek json web token generate karky as an response  send to frontend and frontend mn us token ko as and cokie  store kar de and then ek our  context hook +use state cy ek Key2 variable bnaya .in login page send request to backend with token(stored as an cokie) to bckend in backend verify that token if it is valid login kea bahar he bahj lo  home py (setKey2(true)) and if token is login page py he rk0 (setKey2(false)) because home py key2 be false rhy ge and key1 be false hogi to wo direct login py bahj lyga
+agr login ho  ek bar to backend py ek json web token generate karky as an response  send to frontend and frontend mn 
+us token ko as and cokie  store kar de and then ek our  context hook +use state cy ek Key2 variable bnaya .in login 
+page send request to backend with 
+token(stored as an cokie) to bckend in backend verify that token if it is valid login kea bahar he bahj lo  home py 
+(setKey2(true)) and if token is login page py he rk0 (setKey2(false)) because home py key2 be false rhy ge and key1 
+be false hogi to wo direct login py bahj lyga
+
+key2 ka basically mtlb he yai ha ky agr login mn token verify ho jata ha to wo true kr dy key2 ko
+so user home py move kr skyyy
+

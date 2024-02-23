@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { RequestApiForTokenChecking } from "../Services/apis";
 import Home from '../pages/Home';
+import { skeletonClasses } from '@mui/material';
 function Loginhero() {
   const [inp, setInp] = useState({ email: '', password: '' });
   const [check, setCheck] = useState(false);
@@ -40,7 +41,6 @@ function Loginhero() {
       if (res && res.data.st === 200) {
         console.log(res.data);
         Cookies.set('key', res.data.d, { expires: 7 });   //7 day expire
-        Cookies.set('e', res.data.e, { expires: 7 });   //7 day expire
         setKey(inp.email);
         navigate('/home');
 
@@ -69,6 +69,7 @@ function Loginhero() {
   async function sendCallApi(value) {
     const res = await RequestApiForTokenChecking({ "id": value });
     if (res && res.status === 200) {
+        setKey(res.data.email);
       setKey2(true);
     }
     else {

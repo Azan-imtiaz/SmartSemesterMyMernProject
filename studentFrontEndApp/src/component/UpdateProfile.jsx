@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useContext} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getDataForProfile,updateRequestFromUpdatePage } from '../Services/apis';
 import { Base_Url } from '../Services/helper';
+import { addData, addData2 } from './contextProvider';
 
 
 function UpdateProfilePage() {
@@ -17,14 +18,14 @@ function UpdateProfilePage() {
   const [imagePreview, setImagePreview] = useState('');
   const [id, setId] = useState('');
   const [check, setCheck] = useState("");
+  const { key, setKey } = useContext(addData);
+
 
   useEffect(() => {
     const fetchData = async () => {
-      const keyValue = document.cookie.split('; ').find(cookie => cookie.startsWith('e='));
-      let e = keyValue ? keyValue.split('=')[1] : null;
-
+     
       try {
-        const res = await getDataForProfile({ value: e });
+        const res = await getDataForProfile({ value: key });
         setId(res.data.foundUser._id);
 
         if (res && res.data.st === 200) {

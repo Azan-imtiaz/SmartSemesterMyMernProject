@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect,useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
@@ -7,15 +7,21 @@ import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import { Link } from "react-router-dom";
 import { postRequestFromRegisterPage } from '../Services/apis';
-
+import Home from '../pages/Home';
+import { RequestApiForTokenChecking } from "../Services/apis";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { addData, addData2 } from './contextProvider';
 
 
 
 function RegisterComp() {
   const [inp, setInp] = useState({ email: "", password: "", degree: "", file: null ,semester:"",});
   const [imagePreview, setImagePreview] = useState('');
+  const [check,setCheck]=useState("");
+  
+const { key, setKey } = useContext(addData);
+const { key2, setKey2 } = useContext(addData2);
    
   function handleChange(e) {
     const { name, value, type } = e.target;
@@ -87,8 +93,31 @@ function RegisterComp() {
     }
   }
   
+  useEffect(() => {
+    const keyValue = document.cookie.split('; ').find(cookie => cookie.startsWith('key='));
+    const value = keyValue ? keyValue.split('=')[1] : null;
+    sendCallApi(value);
+  }, []);
+
+  async function sendCallApi(value) {
+    const res = await RequestApiForTokenChecking({ "id": value });
+    if (res && res.status === 200) {
+       setCheck(false);
+       setKey(res.data.email);
+       setKey2(true);
+    }
+    else {
+     setCheck(true);
+     setKey2(false);
+    }
+   console.log(check)
+  } 
+
+
   return (
-    <Container className="d-flex align-items-center justify-content-center" style={{ height: '100vh' }}>
+    check ?(
+      <>
+        <Container className="d-flex align-items-center justify-content-center" style={{ height: '100vh' }}>
       <Row>
         <Col xs={12} md={8} lg={12} xl={12} className="mx-auto">
           <Form style={{ backgroundColor: '#3498db', padding: '20px', borderRadius: '8px' }}>
@@ -121,12 +150,6 @@ function RegisterComp() {
               <Form.Label style={{ color: 'white' }} >Enter Semester</Form.Label>
               <Form.Control type="text" placeholder="Enter Semester" name="semester" onChange={handleChange} defaultValue={inp.semester} required />
             </Form.Group>
-
-
-        
-
-
-
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label style={{ color: 'white' }} >Password</Form.Label>
               <Form.Control type="password" name="password" onChange={handleChange} defaultValue={inp.password} placeholder="Password" required />
@@ -149,7 +172,10 @@ function RegisterComp() {
         </Col>
       </Row>
       <ToastContainer />
-    </Container>
+    </Container>  
+      </>
+    )
+    :(<Home />)
   );
 }
 
