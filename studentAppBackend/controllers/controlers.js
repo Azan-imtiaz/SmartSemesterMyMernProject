@@ -176,16 +176,28 @@ exports.storeResult = async (req, res) => {
 //api end point to get result
 
 exports.getResult = async function (req, res) {
-  const { email} = req.body;
-  console.log(email)
+  const { email,page} = req.body;
+  const total_lists=6;
+  
+  const totalSkipped=(page-1)*total_lists;
+ 
   try {
-    const data = await result.find({ EM: email });
+    const totalDocuments =await result.countDocuments({  EM: email });
+    console.log(totalDocuments)
+    const totalPages=Math.ceil(totalDocuments/total_lists);         
+   
+    const data = await result.find({ EM: email }).limit(6).skip(totalSkipped);
     
-    console.log(data);
 
     if (data.length > 0) {
      
-      return res.status(200).json({ st: 200, d: data });
+    
+      return res.status(200).json({ 
+        pagination:{
+         totalDocuments,totalPages
+        },
+        
+        st: 200, d: data });
     }
 
     return res.status(200).json({ st: 300, d: "Sorry, no documents found" });
@@ -227,9 +239,11 @@ exports.updateResultItem = async function (req, res) {
 
 exports.getResultItem = async (req, res) => {
 
-  const { id } = req.body;
-
+  const { id} = req.body;
+ 
+    
   try {
+     
     const data = await result.findOne({ _id: id });
     // console.log(data);
     if (data) {
@@ -246,16 +260,18 @@ exports.getResultItem = async (req, res) => {
   
 exports.deleteResultItem = async (req, res) => {
   
-  const { id } = req.body;
-
+  const { id} = req.body;
+ 
   try {
-
+      
+  
     const data = await result.deleteOne({ _id: id });
 
     // Check if a document was deleted
 
     if (data.deletedCount > 0) {
-      return res.status(200).json({ st: 200, d: data });
+      return res.status(200).json({   
+st: 200, d: data });
     }
 
     // If no document was deleted, return a response indicating that no document was found
@@ -268,8 +284,11 @@ exports.deleteResultItem = async (req, res) => {
 };
 
 exports.filterResult = async (req, res) => {
-  let { email, semesterF, gradeF } = req.body;
-  console.log(req.body);
+  let { email, semesterF, gradeF,page } = req.body;
+ 
+  const total_lists=6;
+  
+  const totalSkipped=(page-1)*total_lists;
   // Parse semesterF to integer if it is not an empty string
   if (semesterF !== null && semesterF !== undefined && semesterF !== "") {
     semesterF = parseInt(semesterF);
@@ -280,6 +299,7 @@ exports.filterResult = async (req, res) => {
 
   try {
     let query = { EM: email };
+   
 
     // Add semesterF to the query if it is not an empty string
     if (semesterF !== null && semesterF !== undefined && semesterF !== "") {
@@ -294,12 +314,19 @@ exports.filterResult = async (req, res) => {
     }
 
     console.log("Final Query:", query);
+    const totalDocuments =await result.countDocuments(query);
+    console.log(totalDocuments);
+   const totalPages=Math.ceil(totalDocuments/total_lists);         
+  console.log(totalPages);
 
-    const data = await result.find(query);
+    const data = await result.find(query).limit(6).skip(totalSkipped);
     console.log("Result:", data);
 
     if (data.length > 0) {
-      return res.status(200).json({ st: 200, d: data });
+      return res.status(200).json({      pagination:{
+        totalDocuments,totalPages
+       },
+st: 200, d: data });
     }
 
     return res.status(200).json({ st: 300, d: "Sorry, no documents found" });

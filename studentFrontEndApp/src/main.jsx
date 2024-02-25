@@ -4,7 +4,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { addData, addData2 } from './component/contextProvider.jsx';
 import App from './App.jsx';
 import './index.css';
-import { Pagination } from './component/pagination.jsx';
 // Wrap your rendering logic in a function
 const RootComponent = () => {
   // Create your state variables
